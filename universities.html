@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PNG Uni Hub — Universities</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10C30 10 15 25 15 45c0 15 10 25 20 35l15 15 15-15c10-10 20-20 20-35 0-20-15-35-35-35z' fill='%23007bff'/%3E%3Crect x='40' y='30' width='20' height='30' fill='white'/%3E%3Crect x='30' y='45' width='40' height='10' fill='white'/%3E%3C/svg%3E" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #5b4ed8 0%, #000000 50%, #070101 100%);
+            min-height: 100vh;
+            color: #1a1a1a;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 70px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .sidebar .brand-icon {
+            font-size: 28px;
+            color: #fcd116;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .sidebar .nav-btn.active {
+            background: rgba(252, 209, 22, 0.15);
+            color: #fcd116;
+            border-color: rgba(252, 209, 22, 0.2);
+        }
+
+        /* ===== TOP BAR ===== */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #0d1b3e 0%, #1a1a1a 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: 100%;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .topbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .topbar .brand i {
+            color: #fcd116;
+        }
+
+        .topbar .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar .nav-btn-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: 0.3s;
+        }
+
+        .topbar .nav-btn-text:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .topbar .nav-btn-text i {
+            font-size: 16px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 30px 40px 30px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        .page-header h1 i {
+            color: #4a00e0;
+            margin-right: 10px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 16px;
+            margin-top: 6px;
+        }
+
+        /* ===== UNIVERSITY GRID ===== */
+        .uni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        /* ===== CARD GRADIENTS ===== */
+        .uni-card.gradient-uog {
+            background: linear-gradient(145deg, #00e40c 0%, #37ee3d 30%, #f30808 100%);
+        }
+        .uni-card.gradient-ibsu {
+            background: linear-gradient(145deg, #ffd700 0%, #f5a623 30%, #1a1a1a 100%);
+        }
+        .uni-card.gradient-dwu {
+            background: linear-gradient(145deg, #fdd835 0%, #8bc34a 40%, #2e7d32 100%);
+        }
+        .uni-card.gradient-upng {
+            background: linear-gradient(145deg, #043399 0%, #196aad 40%, #e3f2fd 100%);
+        }
+        .uni-card.gradient-wpu {
+            background: linear-gradient(145deg, #160e61 0%, #044383 40%, #806d07 100%);
+        }
+        .uni-card.gradient-pau {
+            background: linear-gradient(145deg, #fc8556 0%, #ff5506 40%, #1a1a1a 100%);
+        }
+        .uni-card.gradient-pnguot {
+            background: linear-gradient(145deg, #ffd700 0%, #cc3c3c 50%, #1f0101 100%);
+        }
+        .uni-card.gradient-unre {
+            background: linear-gradient(145deg, #ffffff 0%, #23f53f 30%, #097705 100%);
+        }
+
+        .uni-card {
+            border-radius: 16px;
+            padding: 24px 20px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .uni-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .uni-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            overflow: hidden;
+            padding: 8px;
+            backdrop-filter: blur(4px);
+        }
+
+        .uni-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .uni-logo .placeholder-icon {
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .uni-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .uni-card .uni-short {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .uni-card .uni-domain {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 16px;
+            word-break: break-all;
+        }
+
+        .uni-card .uni-domain a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .uni-card .uni-domain a:hover {
+            color: #fcd116;
+        }
+
+        .btn-details {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            margin-top: auto;
+            backdrop-filter: blur(2px);
+        }
+
+        .btn-details:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 25px 0 10px;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            max-width: 1200px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .footer .footer-sub {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+            color: #bbb;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 16px 0;
+            }
+            .sidebar .nav-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 15px;
+            }
+            .main-content {
+                padding: 20px 20px 20px 30px;
+            }
+            .page-header h1 {
+                font-size: 28px;
+            }
+            .uni-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+            .topbar {
+                padding: 12px 20px;
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .topbar .brand {
+                justify-content: center;
+            }
+            .topbar .nav-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                min-height: auto;
+                flex-direction: row;
+                padding: 12px 16px;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                justify-content: center;
+                gap: 8px;
+                position: relative;
+            }
+            .sidebar .brand-icon {
+                margin-bottom: 0;
+                margin-right: 12px;
+            }
+            .main-content {
+                padding: 16px;
+            }
+            .uni-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .uni-card {
+                padding: 16px 12px;
+            }
+            .uni-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .uni-card h3 {
+                font-size: 14px;
+            }
+            .btn-details {
+                font-size: 11px;
+                padding: 6px 14px;
+            }
+            .page-header h1 {
+                font-size: 24px;
+            }
+            .topbar {
+                padding: 10px 16px;
+            }
+            .topbar .nav-btn-text {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+
+        <a href="index.html" class="nav-btn" title="Home"><i class="fas fa-home"></i></a>
+        <a href="javascript:history.back()" class="nav-btn" title="Back"><i class="fas fa-arrow-left"></i></a>
+        <a href="gallery.html" class="nav-btn" title="Gallery"><i class="fas fa-images"></i></a>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+
+        <!-- ===== TOP BAR ===== -->
+        <div class="topbar">
+            <div class="brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>PNG Uni Hub</span>
+            </div>
+            <div class="nav-buttons">
+                <a href="index.html" class="nav-btn-text"><i class="fas fa-home"></i> Home</a>
+                <a href="javascript:history.back()" class="nav-btn-text"><i class="fas fa-arrow-left"></i> Back</a>
+                <a href="gallery.html" class="nav-btn-text"><i class="fas fa-images"></i> Gallery</a>
+            </div>
+        </div>
+
+        <!-- ===== PAGE HEADER ===== -->
+        <div class="page-header">
+            <h1><i class="fas fa-university"></i> All Universities</h1>
+            <p>Explore all 8 universities in Papua New Guinea — Click any university to view full details.</p>
+        </div>
+
+        <!-- ===== UNIVERSITY GRID ===== -->
+        <div class="uni-grid" id="uniGrid">
+            <!-- Generated by JavaScript -->
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-copyright"></i> 2025 PNG Uni Hub — Powered by DHERST
+            <span class="footer-sub"><i class="fas fa-lock-open"></i> Open Access for All</span>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================
+        // DATA: 8 Universities with gradient classes
+        // ============================================
+        const universities = [
+            { id: 'unigoroka', shortName: 'UOG', fullName: 'University of Goroka', domain: 'https://www.unigoroka.ac.pg/', gradient: 'gradient-uog' },
+            { id: 'ibsu', shortName: 'IBSU', fullName: 'IBS University', domain: 'https://ibsu.ac.pg/', gradient: 'gradient-ibsu' },
+            { id: 'dwu', shortName: 'DWU', fullName: 'Divine Word University', domain: 'https://dwu.ac.pg/', gradient: 'gradient-dwu' },
+            { id: 'upng', shortName: 'UPNG', fullName: 'University of PNG', domain: 'https://www.upng.ac.pg/', gradient: 'gradient-upng' },
+            { id: 'wpu', shortName: 'WPU', fullName: 'Western Pacific University', domain: 'https://wpu.ac.pg/', gradient: 'gradient-wpu' },
+            { id: 'pau', shortName: 'PAU', fullName: 'Pacific Adventist University', domain: 'https://www.pau.ac.pg/', gradient: 'gradient-pau' },
+            { id: 'pnguot', shortName: 'PNGUoT', fullName: 'PNG University of Technology', domain: 'https://www.pnguot.ac.pg/', gradient: 'gradient-pnguot' },
+            { id: 'unre', shortName: 'UNRE', fullName: 'University of Natural Resources & Environment', domain: 'https://unre.ac.pg/', gradient: 'gradient-unre' }
+        ];
+
+        // ============================================
+        // RENDER UNIVERSITY CARDS
+        // ============================================
+        function renderUniversities() {
+            const grid = document.getElementById('uniGrid');
+            grid.innerHTML = '';
+
+            universities.forEach((uni) => {
+                const card = document.createElement('div');
+                card.className = `uni-card ${uni.gradient}`;
+
+                // Logo - load from uploads folder
+                const logoDiv = document.createElement('div');
+                logoDiv.className = 'uni-logo';
+                
+                // Try to load logo from uploads folder
+                const logoPath = `/uploads/logos/${uni.id}.png`;
+                fetch(logoPath)
+                    .then(response => {
+                        if (response.ok) {
+                            logoDiv.innerHTML = `<img src="${logoPath}" alt="${uni.shortName} logo" />`;
+                        } else {
+                            logoDiv.innerHTML = `<div class="placeholder-icon"><i class="fas fa-university"></i></div>`;
+                        }
+                    })
+                    .catch(() => {
+                        logoDiv.innerHTML = `<div class="placeholder-icon"><i class="fas fa-university"></i></div>`;
+                    });
+
+                // Name
+                const name = document.createElement('h3');
+                name.textContent = uni.fullName;
+
+                // Short name
+                const short = document.createElement('div');
+                short.className = 'uni-short';
+                short.textContent = uni.shortName;
+
+                // Domain
+                const domain = document.createElement('div');
+                domain.className = 'uni-domain';
+                domain.innerHTML = `<a href="${uni.domain}" target="_blank"><i class="fas fa-link"></i> ${uni.domain.replace('https://', '')}</a>`;
+
+                // Button
+                const btn = document.createElement('a');
+                btn.className = 'btn-details';
+                btn.href = `university-detail.html?id=${uni.id}`;
+                btn.innerHTML = `View Details <i class="fas fa-arrow-right"></i>`;
+
+                card.appendChild(logoDiv);
+                card.appendChild(name);
+                card.appendChild(short);
+                card.appendChild(domain);
+                card.appendChild(btn);
+
+                grid.appendChild(card);
+            });
+        }
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderUniversities();
+        });
+    </script>
+
+</body>
+</html>

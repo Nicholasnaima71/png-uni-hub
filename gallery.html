@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PNG Uni Hub — Gallery</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10C30 10 15 25 15 45c0 15 10 25 20 35l15 15 15-15c10-10 20-20 20-35 0-20-15-35-35-35z' fill='%23007bff'/%3E%3Crect x='40' y='30' width='20' height='30' fill='white'/%3E%3Crect x='30' y='45' width='40' height='10' fill='white'/%3E%3C/svg%3E" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #feffff 0%, #49454e 50%, #0c0c0c 100%);
+            min-height: 100vh;
+            color: #1a1a1a;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 70px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .sidebar .brand-icon {
+            font-size: 28px;
+            color: #fcd116;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .sidebar .nav-btn.active {
+            background: rgba(252, 209, 22, 0.15);
+            color: #fcd116;
+            border-color: rgba(252, 209, 22, 0.2);
+        }
+
+        /* ===== TOP BAR ===== */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #0d1b3e 0%, #1a1a1a 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: 100%;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .topbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .topbar .brand i {
+            color: #fcd116;
+        }
+
+        .topbar .nav-buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topbar .nav-btn-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: 0.3s;
+        }
+
+        .topbar .nav-btn-text:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .topbar .nav-btn-text i {
+            font-size: 16px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 30px 40px 30px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 34px;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+
+        .page-header h1 i {
+            color: #4a00e0;
+            margin-right: 10px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 16px;
+            margin-top: 4px;
+        }
+
+        /* ===== CARD GRADIENTS (same as universities) ===== */
+        .gradient-uog { background: linear-gradient(145deg, #2e7d32 0%, #4caf50 30%, #c62828 100%); }
+        .gradient-ibsu { background: linear-gradient(145deg, #ffd700 0%, #f5a623 30%, #1a1a1a 100%); }
+        .gradient-dwu { background: linear-gradient(145deg, #fdd835 0%, #8bc34a 40%, #2e7d32 100%); }
+        .gradient-upng { background: linear-gradient(145deg, #1565c0 0%, #42a5f5 40%, #e3f2fd 100%); }
+        .gradient-wpu { background: linear-gradient(145deg, #0d47a1 0%, #1976d2 40%, #8a7811 100%); }
+        .gradient-pau { background: linear-gradient(145deg, #e65100 0%, #f57c00 40%, #1a1a1a 100%); }
+        .gradient-pnguot { background: linear-gradient(145deg, #fdd835 0%, #c62828 50%, #4a0000 100%); }
+        .gradient-unre { background: linear-gradient(145deg, #ffffff 0%, #23f53f 30%, #097705 100%); }
+
+        /* ===== ROTARY CONTAINER ===== */
+        .rotary-container {
+            position: relative;
+            width: 100%;
+            height: 460px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: background 0.6s ease;
+            perspective: 1200px;
+            background: linear-gradient(145deg, #ffffff 0%, #e0e0e0 100%);
+        }
+
+        .rotary-container.gradient-uog { background: linear-gradient(145deg, #2e7d32 0%, #4caf50 30%, #c62828 100%); }
+        .rotary-container.gradient-ibsu { background: linear-gradient(145deg, #ffd700 0%, #f5a623 30%, #1a1a1a 100%); }
+        .rotary-container.gradient-dwu { background: linear-gradient(145deg, #fdd835 0%, #8bc34a 40%, #2e7d32 100%); }
+        .rotary-container.gradient-upng { background: linear-gradient(145deg, #1565c0 0%, #42a5f5 40%, #e3f2fd 100%); }
+        .rotary-container.gradient-wpu { background: linear-gradient(145deg, #0d47a1 0%, #1976d2 40%, #8a7811 100%); }
+        .rotary-container.gradient-pau { background: linear-gradient(145deg, #e65100 0%, #f57c00 40%, #1a1a1a 100%); }
+        .rotary-container.gradient-pnguot { background: linear-gradient(145deg, #fdd835 0%, #c62828 50%, #4a0000 100%); }
+        .rotary-container.gradient-unre { background: linear-gradient(145deg, #ffffff 0%, #23f53f 30%, #097705 100%); }
+
+        .rotary-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .rotary-item {
+            position: absolute;
+            width: 240px;
+            height: 300px;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+
+        .rotary-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease, filter 0.5s ease;
+        }
+
+        .rotary-item:hover img {
+            transform: scale(1.08);
+            filter: brightness(0.8);
+        }
+
+        .rotary-item .uni-name-badge {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #007bff;
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.3);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            white-space: nowrap;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .rotary-item:hover .uni-name-badge {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-4px);
+        }
+
+        .rotary-item .click-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+        }
+
+        .rotary-item:hover .click-hint {
+            opacity: 1;
+        }
+
+        .rotary-item .click-hint i {
+            margin-right: 8px;
+        }
+
+        /* ===== UNIVERSITY SELECTOR ===== */
+        .uni-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .uni-selector .uni-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(0, 0, 0, 0.03);
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .uni-selector .uni-btn:hover {
+            background: rgba(0, 0, 0, 0.06);
+            color: #1a1a1a;
+        }
+
+        .uni-selector .uni-btn.active {
+            background: rgba(74, 0, 224, 0.08);
+            border-color: #4a00e0;
+            color: #4a00e0;
+        }
+
+        /* ===== SPLIT GALLERY ===== */
+        .split-gallery {
+            display: none;
+            margin-top: 30px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .split-gallery.active {
+            display: block;
+        }
+
+        .split-gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .split-gallery-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .split-gallery-header h2 i {
+            margin-right: 8px;
+            color: #4a00e0;
+        }
+
+        .split-gallery-header .close-split-btn {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.15);
+            color: #dc3545;
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .split-gallery-header .close-split-btn:hover {
+            background: rgba(255, 107, 107, 0.2);
+        }
+
+        .split-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .split-item {
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .split-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+        }
+
+        .split-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .split-item .item-number {
+            position: absolute;
+            bottom: 8px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 11px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(4px);
+        }
+
+        /* ===== NO IMAGES ===== */
+        .no-images {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(0, 0, 0, 0.15);
+        }
+
+        .no-images i {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 12px;
+            color: rgba(0, 0, 0, 0.05);
+        }
+
+        .no-images h3 {
+            font-size: 20px;
+            color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== IMAGE MODAL ===== */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        .image-modal .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: zoomIn 0.3s ease;
+            position: relative;
+        }
+
+        .image-modal .modal-content img {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            display: block;
+        }
+
+        .image-modal .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            font-size: 36px;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .image-modal .modal-close:hover {
+            color: #fff;
+            transform: rotate(90deg);
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff6b6b;
+        }
+
+        .image-modal .modal-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 6px 18px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 25px 0 10px;
+            color: #230379;
+            font-size: 13px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .footer .footer-sub {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+            color: #bbb;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .rotary-item { width: 180px; height: 230px; }
+            .split-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 60px; padding: 16px 0; }
+            .sidebar .nav-btn { width: 38px; height: 38px; font-size: 15px; }
+            .main-content { padding: 20px 20px 20px 30px; }
+            .page-header h1 { font-size: 28px; }
+            .rotary-container { height: 340px; }
+            .rotary-item { width: 140px; height: 180px; }
+            .split-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .topbar { padding: 12px 20px; flex-direction: column; align-items: stretch; text-align: center; }
+            .topbar .brand { justify-content: center; }
+            .topbar .nav-buttons { justify-content: center; }
+        }
+
+        @media (max-width: 480px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; min-height: auto; flex-direction: row; padding: 12px 16px; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.06); justify-content: center; gap: 8px; position: relative; }
+            .sidebar .brand-icon { margin-bottom: 0; margin-right: 12px; }
+            .main-content { padding: 16px; }
+            .rotary-container { height: 280px; }
+            .rotary-item { width: 110px; height: 150px; border-radius: 10px; }
+            .rotary-item .click-hint { font-size: 10px; padding: 4px 10px; }
+            .split-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .split-gallery-header h2 { font-size: 16px; }
+            .page-header h1 { font-size: 24px; }
+            .topbar { padding: 10px 16px; }
+            .topbar .nav-btn-text { font-size: 12px; padding: 6px 12px; }
+            .uni-selector .uni-btn { font-size: 11px; padding: 6px 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+
+        <a href="index.html" class="nav-btn" title="Home"><i class="fas fa-home"></i></a>
+        <a href="javascript:history.back()" class="nav-btn" title="Back"><i class="fas fa-arrow-left"></i></a>
+        <a href="gallery.html" class="nav-btn active" title="Gallery"><i class="fas fa-images"></i></a>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+
+        <!-- ===== TOP BAR ===== -->
+        <div class="topbar">
+            <div class="brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>PNG Uni Hub</span>
+            </div>
+            <div class="nav-buttons">
+                <a href="index.html" class="nav-btn-text"><i class="fas fa-home"></i> Home</a>
+                <a href="javascript:history.back()" class="nav-btn-text"><i class="fas fa-arrow-left"></i> Back</a>
+            </div>
+        </div>
+
+        <!-- ===== PAGE HEADER ===== -->
+        <div class="page-header">
+            <h1><i class="fas fa-images"></i> Campus Gallery</h1>
+            <p>Explore campus photos from all 8 universities in Papua New Guinea</p>
+        </div>
+
+        <!-- ===== UNIVERSITY SELECTOR ===== -->
+        <div class="uni-selector" id="uniSelector">
+            <!-- Generated by JavaScript -->
+        </div>
+
+        <!-- ===== ROTARY GALLERY ===== -->
+        <div class="rotary-container" id="rotaryContainer">
+            <div class="rotary-track" id="rotaryTrack">
+                <!-- Generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- ===== SPLIT GALLERY ===== -->
+        <div class="split-gallery" id="splitGallery">
+            <div class="split-gallery-header">
+                <h2><i class="fas fa-th"></i> <span id="splitTitle">All Images</span></h2>
+                <button class="close-split-btn" id="closeSplitBtn">
+                    <i class="fas fa-times"></i> Close Gallery
+                </button>
+            </div>
+            <div class="split-grid" id="splitGrid">
+                <!-- Generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- ===== NO IMAGES ===== -->
+        <div class="no-images" id="noImages" style="display:none;">
+            <i class="fas fa-camera"></i>
+            <h3>No Images Available</h3>
+            <p>No gallery images have been uploaded for this university yet.</p>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-copyright"></i> 2025 PNG Uni Hub — Powered by DHERST
+            <span class="footer-sub"><i class="fas fa-lock-open"></i> Open Access for All</span>
+        </div>
+
+    </div>
+
+    <!-- ===== IMAGE MODAL ===== -->
+    <div class="image-modal" id="imageModal">
+        <div class="modal-close" id="modalClose"><i class="fas fa-times"></i></div>
+        <div class="modal-content" id="modalContent">
+            <img id="modalImage" src="" alt="Gallery Image" />
+        </div>
+        <div class="modal-counter" id="modalCounter">1 / 1</div>
+    </div>
+
+    <script>
+        // ============================================
+        // DATA: 8 Universities with gradient classes
+        // ============================================
+        const universities = [
+            { id: 'unigoroka', shortName: 'UOG', fullName: 'University of Goroka', gradient: 'gradient-uog' },
+            { id: 'ibsu', shortName: 'IBSU', fullName: 'IBS University', gradient: 'gradient-ibsu' },
+            { id: 'dwu', shortName: 'DWU', fullName: 'Divine Word University', gradient: 'gradient-dwu' },
+            { id: 'upng', shortName: 'UPNG', fullName: 'University of PNG', gradient: 'gradient-upng' },
+            { id: 'wpu', shortName: 'WPU', fullName: 'Western Pacific University', gradient: 'gradient-wpu' },
+            { id: 'pau', shortName: 'PAU', fullName: 'Pacific Adventist University', gradient: 'gradient-pau' },
+            { id: 'pnguot', shortName: 'PNGUoT', fullName: 'PNG University of Technology', gradient: 'gradient-pnguot' },
+            { id: 'unre', shortName: 'UNRE', fullName: 'University of Natural Resources & Environment', gradient: 'gradient-unre' }
+        ];
+
+        let currentUni = null;
+        let currentImages = [];
+        let rotaryInterval = null;
+        let isSplitView = false;
+        let rotationAngle = 0;
+
+        // ============================================
+        // BUILD UNIVERSITY SELECTOR
+        // ============================================
+        function buildUniversitySelector() {
+            const container = document.getElementById('uniSelector');
+            container.innerHTML = '';
+
+            universities.forEach(function(uni) {
+                const btn = document.createElement('button');
+                btn.className = 'uni-btn';
+                btn.dataset.id = uni.id;
+                btn.textContent = uni.shortName;
+                btn.addEventListener('click', function() {
+                    selectUniversity(uni.id);
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        // ============================================
+        // LOAD GALLERY IMAGES FROM BACKEND
+        // ============================================
+        async function loadGalleryImages(uniId) {
+            try {
+                const response = await fetch(`/list/gallery/${uniId}`);
+                const data = await response.json();
+                if (data.files && data.files.length > 0) {
+                    return data.files.map(f => f.path);
+                }
+                return [];
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                return [];
+            }
+        }
+
+        // ============================================
+        // SELECT UNIVERSITY
+        // ============================================
+        async function selectUniversity(uniId) {
+            document.querySelectorAll('.uni-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.dataset.id === uniId);
+            });
+
+            currentUni = universities.find(function(u) { return u.id === uniId; });
+            if (!currentUni) return;
+
+            // Load images from backend
+            const images = await loadGalleryImages(uniId);
+            currentImages = images;
+
+            // Update rotary container gradient
+            const container = document.getElementById('rotaryContainer');
+            container.className = 'rotary-container';
+            if (currentUni.gradient) {
+                container.classList.add(currentUni.gradient);
+            }
+
+            closeSplitGallery();
+
+            if (currentImages.length === 0) {
+                document.getElementById('noImages').style.display = 'block';
+                document.getElementById('rotaryContainer').style.display = 'none';
+                document.getElementById('rotaryTrack').innerHTML = '';
+            } else {
+                document.getElementById('noImages').style.display = 'none';
+                document.getElementById('rotaryContainer').style.display = 'flex';
+                renderRotaryGallery(currentImages, currentUni);
+            }
+        }
+
+        // ============================================
+        // RENDER ROTARY GALLERY (3D with gradients)
+        // ============================================
+        function renderRotaryGallery(images, uni) {
+            const track = document.getElementById('rotaryTrack');
+            track.innerHTML = '';
+
+            if (!images || images.length === 0) {
+                track.innerHTML = `
+                    <div style="text-align:center; color:rgba(0,0,0,0.15);">
+                        <i class="fas fa-camera" style="font-size:48px;display:block;margin-bottom:10px;"></i>
+                        <p>No images available</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const rotaryImages = images.slice(0, 10);
+            const radius = Math.min(340, window.innerWidth * 0.30);
+            const total = rotaryImages.length;
+
+            rotaryImages.forEach(function(imgSrc, index) {
+                const item = document.createElement('div');
+                item.className = `rotary-item`;
+                item.dataset.index = index;
+
+                const angle = (index / total) * Math.PI * 2;
+                const x = Math.sin(angle) * radius;
+                const z = Math.cos(angle) * radius;
+
+                const scale = 0.7 + (z / radius) * 0.3;
+                const opacity = 0.4 + (z / radius) * 0.6;
+
+                item.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${-angle * 0.6}deg) scale(${scale})`;
+                item.style.zIndex = Math.round(z + 300);
+                item.style.opacity = opacity;
+                item.style.border = '3px solid rgba(255,255,255,0.25)';
+
+                item.innerHTML = `
+                    <img src="${imgSrc}" alt="Campus image ${index + 1}" loading="lazy" />
+                    <div class="uni-name-badge">${uni ? uni.shortName : 'Campus'}</div>
+                    <div class="click-hint"><i class="fas fa-expand"></i> View Gallery</div>
+                `;
+
+                item.addEventListener('click', function() {
+                    openSplitGallery();
+                });
+
+                track.appendChild(item);
+            });
+
+            startRotaryAnimation();
+            window.addEventListener('resize', function() {
+                updateRotaryPositions();
+            });
+        }
+
+        // ============================================
+        // ROTARY ANIMATION
+        // ============================================
+        function startRotaryAnimation() {
+            if (rotaryInterval) clearInterval(rotaryInterval);
+            rotaryInterval = setInterval(function() {
+                rotationAngle += 0.015;
+                updateRotaryPositions();
+            }, 50);
+        }
+
+        function updateRotaryPositions() {
+            const items = document.querySelectorAll('.rotary-item');
+            const total = items.length;
+            if (total === 0) return;
+
+            const radius = Math.min(340, window.innerWidth * 0.18);
+
+            items.forEach(function(item, index) {
+                const angle = (index / total) * Math.PI * 2 + rotationAngle;
+                const x = Math.sin(angle) * radius;
+                const z = Math.cos(angle) * radius;
+
+                const scale = 0.7 + (z / radius) * 0.3;
+                const opacity = 0.4 + (z / radius) * 0.6;
+
+                item.style.transform = `translate3d(${x}px, 0px, ${z}px) rotateY(${-angle * 0.6}deg) scale(${scale})`;
+                item.style.zIndex = Math.round(z + 300);
+                item.style.opacity = opacity;
+            });
+        }
+
+        // ============================================
+        // SPLIT GALLERY
+        // ============================================
+        function openSplitGallery() {
+            if (isSplitView) return;
+            if (!currentImages || currentImages.length === 0) return;
+
+            isSplitView = true;
+            if (rotaryInterval) {
+                clearInterval(rotaryInterval);
+                rotaryInterval = null;
+            }
+
+            const splitGallery = document.getElementById('splitGallery');
+            splitGallery.classList.add('active');
+            document.getElementById('splitTitle').textContent = currentUni ? currentUni.shortName + ' - All Images' : 'All Images';
+
+            const grid = document.getElementById('splitGrid');
+            grid.innerHTML = '';
+
+            currentImages.forEach(function(imgSrc, index) {
+                const item = document.createElement('div');
+                item.className = 'split-item';
+                item.innerHTML = `
+                    <img src="${imgSrc}" alt="Campus image ${index + 1}" loading="lazy" />
+                    <span class="item-number">${index + 1}</span>
+                `;
+                item.addEventListener('click', function() {
+                    openImageViewer(imgSrc, index + 1, currentImages.length);
+                });
+                grid.appendChild(item);
+            });
+
+            splitGallery.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeSplitGallery() {
+            isSplitView = false;
+            document.getElementById('splitGallery').classList.remove('active');
+            if (currentImages && currentImages.length > 0) {
+                startRotaryAnimation();
+            }
+        }
+
+        // ============================================
+        // IMAGE MODAL
+        // ============================================
+        function openImageViewer(src, currentIndex, total) {
+            const modal = document.getElementById('imageModal');
+            document.getElementById('modalImage').src = src;
+            document.getElementById('modalCounter').textContent = currentIndex + ' / ' + total;
+            modal.classList.add('active');
+            modal.dataset.currentIndex = currentIndex;
+            modal.dataset.total = total;
+            modal.dataset.images = JSON.stringify(currentImages);
+            document.addEventListener('keydown', modalKeyHandler);
+        }
+
+        function modalKeyHandler(e) {
+            const modal = document.getElementById('imageModal');
+            if (!modal.classList.contains('active')) {
+                document.removeEventListener('keydown', modalKeyHandler);
+                return;
+            }
+
+            const images = currentImages;
+            const total = images.length;
+            let current = parseInt(modal.dataset.currentIndex) || 1;
+
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                current = current < total ? current + 1 : 1;
+                modal.dataset.currentIndex = current;
+                document.getElementById('modalImage').src = images[current - 1];
+                document.getElementById('modalCounter').textContent = current + ' / ' + total;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                current = current > 1 ? current - 1 : total;
+                modal.dataset.currentIndex = current;
+                document.getElementById('modalImage').src = images[current - 1];
+                document.getElementById('modalCounter').textContent = current + ' / ' + total;
+            } else if (e.key === 'Escape') {
+                modal.classList.remove('active');
+                document.removeEventListener('keydown', modalKeyHandler);
+            }
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.getElementById('closeSplitBtn').addEventListener('click', closeSplitGallery);
+
+        document.getElementById('modalClose').addEventListener('click', function() {
+            document.getElementById('imageModal').classList.remove('active');
+        });
+
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('imageModal').classList.remove('active');
+                if (isSplitView) {
+                    closeSplitGallery();
+                }
+            }
+        });
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            buildUniversitySelector();
+            if (universities.length > 0) {
+                selectUniversity(universities[0].id);
+            }
+        });
+    </script>
+
+</body>
+</html>

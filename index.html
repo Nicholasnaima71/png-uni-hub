@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PNG Uni Hub — Home</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10C30 10 15 25 15 45c0 15 10 25 20 35l15 15 15-15c10-10 20-20 20-35 0-20-15-35-35-35z' fill='%23007bff'/%3E%3Crect x='40' y='30' width='20' height='30' fill='white'/%3E%3Crect x='30' y='45' width='40' height='10' fill='white'/%3E%3C/svg%3E" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #000000 0%, #cdd6d6 50%, #d9d9d9 100%);
+            min-height: 100vh;
+            color: #1a1a1a;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 70px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .sidebar .brand-icon {
+            font-size: 28px;
+            color: #fcd116;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.0s;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .sidebar .nav-btn.active {
+            background: rgba(252, 209, 22, 0.15);
+            color: #fcd116;
+            border-color: rgba(252, 209, 22, 0.2);
+        }
+
+        /* ===== TOP BAR ===== */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 30px;
+            background: linear-gradient(145deg, #0d1b3e 0%, #1a1a1a 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: 100%;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .topbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .topbar .brand i {
+            color: #fcd116;
+        }
+
+        .topbar .login-btn {
+            background: rgba(252, 209, 22, 0.08);
+            border: 1px solid rgba(252, 209, 22, 0.15);
+            color: #fcd116;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .topbar .login-btn:hover {
+            background: rgba(252, 209, 22, 0.2);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 30px 40px 30px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            margin: 10px auto 30px;
+            padding: 35px 30px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(252, 209, 22, 0.15);
+            color: #b8860b;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: 44px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e91e63, #1a1a1a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 i {
+            -webkit-text-fill-color: #e91e63;
+            margin-right: 10px;
+        }
+
+        .hero p {
+            color: #555;
+            font-size: 18px;
+            margin: 10px 0 20px;
+        }
+
+        /* ===== PROBLEM / SOLUTION ===== */
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .problem-box {
+            background: linear-gradient(145deg, #000000 0%, #2c0c02 40%, #c70404 100%);
+            border-radius: 16px;
+            padding: 28px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.2);
+        }
+
+        .problem-box h3 {
+            color: #fff;
+            margin-bottom: 14px;
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .problem-box h3 i {
+            font-size: 28px;
+            color: #ffeb3b;
+            text-shadow: 0 0 20px #ffeb3b, 0 0 40px #ffeb3b;
+            animation: glowYellow 1.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowYellow {
+            0% { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffeb3b; }
+            100% { text-shadow: 0 0 25px #ffeb3b, 0 0 50px #ffeb3b, 0 0 70px #ffeb3b; }
+        }
+
+        .problem-box li {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            padding: 6px 0;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .problem-box li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #fff;
+        }
+
+        .problem-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .problem-footer {
+            margin-top: 12px;
+            font-size: 13px;
+            color: rgb(255, 192, 18);
+        }
+
+        .solution-box {
+            background: linear-gradient(145deg, #000000 0%, #032404 40%, #10f01b 100%);
+            border-radius: 16px;
+            padding: 28px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(27, 94, 32, 0.2);
+        }
+
+        .solution-box h3 {
+            color: #fff;
+            margin-bottom: 14px;
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .solution-box h3 i {
+            font-size: 28px;
+            color: #ffeb3b;
+            text-shadow: 0 0 20px #ffeb3b, 0 0 40px #ffeb3b;
+            animation: glowYellow 1.5s ease-in-out infinite alternate;
+        }
+
+        .solution-box li {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .solution-box li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .solution-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .solution-footer {
+            margin-top: 12px;
+            font-size: 13px;
+            color: rgb(255, 210, 9);
+        }
+
+        /* ===== CAROUSEL + CTA (Blue → Black Gradient) ===== */
+        .carousel-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            width: 100%;
+            margin: 30px 0 20px;
+            padding: 20px;
+            background: linear-gradient(145deg, #0de4c7 0%, #100192 30%, #1a1a1a 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 20px rgba(13, 71, 161, 0.15);
+        }
+
+        .logo-carousel {
+            position: relative;
+            width: 220px;
+            height: 90px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-slide {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            padding: 6px;
+            overflow: hidden;
+        }
+
+        .logo-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .logo-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-slide .placeholder-icon {
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .carousel-dots .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: 0.3s;
+        }
+
+        .carousel-dots .dot.active {
+            background: #fcd116;
+        }
+
+        .carousel-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 34px;
+            background: linear-gradient(135deg, #fcd116, #e67e22);
+            color: #1a1a1a;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(252, 209, 22, 0.25);
+        }
+
+        .btn-primary i {
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover i {
+            transform: translateX(6px);
+        }
+
+        .about-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+            font-size: 13px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .about-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 25px 0 10px;
+            color: rgba(0, 0, 0, 0.2);
+            font-size: 13px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .footer .footer-sub {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+            color: rgba(0, 0, 0, 0.12);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 16px 0;
+            }
+            .sidebar .nav-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 15px;
+            }
+            .main-content {
+                padding: 20px 20px 20px 30px;
+            }
+            .hero h1 {
+                font-size: 30px;
+            }
+            .problem-solution {
+                grid-template-columns: 1fr;
+            }
+            .logo-carousel {
+                width: 160px;
+                height: 70px;
+            }
+            .logo-slide {
+                width: 56px;
+                height: 56px;
+            }
+            .btn-primary {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+            .topbar {
+                padding: 10px 20px;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .topbar .brand {
+                font-size: 18px;
+            }
+            .topbar .login-btn {
+                font-size: 11px;
+                padding: 4px 12px;
+            }
+            .problem-box h3,
+            .solution-box h3 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                min-height: auto;
+                flex-direction: row;
+                padding: 10px 16px;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                justify-content: center;
+                gap: 8px;
+                position: relative;
+            }
+            .sidebar .brand-icon {
+                margin-bottom: 0;
+                margin-right: 12px;
+            }
+            .main-content {
+                padding: 16px;
+            }
+            .hero h1 {
+                font-size: 24px;
+            }
+            .hero {
+                padding: 20px 16px;
+            }
+            .problem-box,
+            .solution-box {
+                padding: 20px 16px;
+            }
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+            .topbar {
+                padding: 8px 16px;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .topbar .brand {
+                font-size: 16px;
+            }
+            .topbar .login-btn {
+                font-size: 10px;
+                padding: 4px 10px;
+            }
+            .logo-carousel {
+                width: 140px;
+                height: 60px;
+            }
+            .logo-slide {
+                width: 48px;
+                height: 48px;
+            }
+            .problem-box h3,
+            .solution-box h3 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+
+        <a href="index.html" class="nav-btn active" title="Home"><i class="fas fa-home"></i></a>
+        <a href="javascript:history.back()" class="nav-btn" title="Back"><i class="fas fa-arrow-left"></i></a>
+        <a href="gallery.html" class="nav-btn" title="Gallery"><i class="fas fa-images"></i></a>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+
+        <!-- ===== TOP BAR ===== -->
+        <div class="topbar">
+            <div class="brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>PNG Uni Hub</span>
+            </div>
+            <a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+
+        <!-- ===== HERO SECTION ===== -->
+        <section class="hero">
+            <div class="badge"><i class="fas fa-graduation-cap"></i> PNG Higher Education</div>
+            <h1><i class="fas fa-compass"></i> Find Your Path</h1>
+            <p>Your gateway to higher education in Papua New Guinea — Explore 8 universities, courses, fees, and more.</p>
+        </section>
+
+        <!-- ===== PROBLEM & SOLUTION ===== -->
+        <div class="problem-solution">
+            <div class="problem-box">
+                <h3><i class="fas fa-exclamation-triangle"></i> The Problem</h3>
+                <ul>
+                    <li>Grade 12 school leavers struggle to find reliable university information.</li>
+                    <li>Tuition fees, entry requirements, and contact details are hard to access.</li>
+                    <li>No centralised platform exists for all 8 universities in PNG.</li>
+                </ul>
+                <p class="problem-footer"><i class="fas fa-arrow-right"></i> Leads to confusion and missed opportunities.</p>
+            </div>
+            <div class="solution-box">
+                <h3><i class="fas fa-lightbulb"></i> The Solution</h3>
+                <ul>
+                    <li><strong>PNG Uni Hub</strong> – a free, open‑access platform for all 8 universities.</li>
+                    <li>Course listings, fees, entry requirements, and contact details.</li>
+                    <li>Interactive gallery, videos, and multimedia content.</li>
+                </ul>
+                <p class="solution-footer"><i class="fas fa-check-circle"></i> Powered by DHERST — Empowering PNG's future leaders.</p>
+            </div>
+        </div>
+
+        <!-- ===== CAROUSEL + CTA ===== -->
+        <div class="carousel-row">
+            <div style="text-align:center;">
+                <div class="carousel-label"><i class="fas fa-university"></i> Partner Universities</div>
+                <div class="logo-carousel" id="logoCarousel">
+                    <!-- Logos injected by JavaScript -->
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+
+            <div>
+                <a href="universities.html" class="btn-primary" id="exploreBtn">
+                    Explore Universities <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <a href="about.html" class="about-link"><i class="fas fa-info-circle"></i> About Us — Learn more about our mission</a>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-copyright"></i> 2025 PNG Uni Hub — Powered by DHERST
+            <span class="footer-sub"><i class="fas fa-lock-open"></i> Open Access for All</span>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================
+        // DATA: 8 Universities
+        // ============================================
+        const universities = [
+            { id: 'unigoroka', shortName: 'UOG' },
+            { id: 'ibsu', shortName: 'IBSU' },
+            { id: 'dwu', shortName: 'DWU' },
+            { id: 'upng', shortName: 'UPNG' },
+            { id: 'wpu', shortName: 'WPU' },
+            { id: 'pau', shortName: 'PAU' },
+            { id: 'pnguot', shortName: 'PNGUoT' },
+            { id: 'unre', shortName: 'UNRE' }
+        ];
+
+        // ============================================
+        // CAROUSEL LOGIC
+        // ============================================
+        let currentSlide = 0;
+        let carouselInterval = null;
+
+        const logoSlides = universities.map(u => ({
+            id: u.id,
+            name: u.shortName,
+            imgSrc: null
+        }));
+
+        function renderCarousel() {
+            const container = document.getElementById('logoCarousel');
+            const dotsContainer = document.getElementById('carouselDots');
+            container.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            const total = logoSlides.length;
+
+            logoSlides.forEach((item, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'logo-slide' + (index === 0 ? ' active' : '');
+                slide.dataset.index = index;
+
+                if (item.imgSrc) {
+                    slide.innerHTML = `<img src="${item.imgSrc}" alt="${item.name} logo" />`;
+                } else {
+                    slide.innerHTML = `<div class="placeholder-icon"><i class="fas fa-university"></i></div>`;
+                }
+
+                container.appendChild(slide);
+
+                const dot = document.createElement('span');
+                dot.className = 'dot' + (index === 0 ? ' active' : '');
+                dot.dataset.index = index;
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+
+            if (carouselInterval) clearInterval(carouselInterval);
+            carouselInterval = setInterval(() => {
+                const next = (currentSlide + 1) % total;
+                goToSlide(next);
+            }, 2500);
+        }
+
+        function goToSlide(index) {
+            const slides = document.querySelectorAll('.logo-slide');
+            const dots = document.querySelectorAll('.dot');
+            const total = slides.length;
+
+            if (!slides.length) return;
+
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+
+            dots.forEach((d, i) => {
+                d.classList.toggle('active', i === index);
+            });
+
+            currentSlide = index;
+        }
+
+        // ============================================
+        // LOAD LOGOS FROM UPLOADS FOLDER
+        // ============================================
+        function loadLogos() {
+            let loadedCount = 0;
+            const total = universities.length;
+
+            universities.forEach((uni) => {
+                const logoPath = `/uploads/logos/${uni.id}.png`;
+                
+                fetch(logoPath)
+                    .then(response => {
+                        if (response.ok) {
+                            const found = logoSlides.find(l => l.id === uni.id);
+                            if (found) {
+                                found.imgSrc = logoPath;
+                            }
+                        }
+                        loadedCount++;
+                        if (loadedCount >= total) {
+                            renderCarousel();
+                        }
+                    })
+                    .catch(() => {
+                        loadedCount++;
+                        if (loadedCount >= total) {
+                            renderCarousel();
+                        }
+                    });
+            });
+        }
+
+        // ============================================
+        // EXPLORE BUTTON - TRIGGER BACKGROUND MUSIC
+        // ============================================
+        document.getElementById('exploreBtn').addEventListener('click', function(e) {
+            const audioPath = `/uploads/audio/background_music.mp3`;
+            fetch(audioPath)
+                .then(response => {
+                    if (response.ok) {
+                        const audio = new Audio(audioPath);
+                        audio.loop = true;
+                        audio.volume = 0.5;
+                        audio.play().catch(() => {});
+                    }
+                })
+                .catch(() => {});
+        });
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLogos();
+        });
+    </script>
+
+</body>
+</html>

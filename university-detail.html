@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PNG Uni Hub — University Details</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 10C30 10 15 25 15 45c0 15 10 25 20 35l15 15 15-15c10-10 20-20 20-35 0-20-15-35-35-35z' fill='%23007bff'/%3E%3Crect x='40' y='30' width='20' height='30' fill='white'/%3E%3Crect x='30' y='45' width='40' height='10' fill='white'/%3E%3C/svg%3E" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0c0101;
+            min-height: 100vh;
+            color: #1a1a1a;
+            display: flex;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 70px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .sidebar .brand-icon {
+            font-size: 28px;
+            color: #fcd116;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.5);
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .sidebar .login-btn {
+            margin-top: auto;
+            background: rgba(252, 209, 22, 0.08);
+            border: 1px solid rgba(252, 209, 22, 0.15);
+            color: #fcd116;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .sidebar .login-btn:hover {
+            background: rgba(252, 209, 22, 0.2);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 20px 30px 20px 40px;
+            max-width: 1500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: #fcd116;
+        }
+
+        /* ===== CONTENT + VIDEO LAYOUT ===== */
+        .detail-layout {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        /* ===== LEFT CONTENT (55%) ===== */
+        .left-content {
+            flex: 5.5;
+            min-width: 0;
+        }
+
+        /* ===== RIGHT VIDEO (45%) ===== */
+        .right-video {
+            flex: 4.5;
+            min-width: 280px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .right-video .video-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 10px;
+        }
+
+        .right-video .video-section h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #fcd116;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .right-video .video-section h3 i {
+            color: #fcd116;
+        }
+
+        /* ===== VIDEO WRAPPER - Full video visible ===== */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Show FULL video without cropping */
+            background: #000;
+            display: block;
+        }
+
+        .no-video {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .no-video i {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.05);
+        }
+
+        .no-video p {
+            font-size: 12px;
+        }
+
+        /* ===== VIDEO BUTTONS ===== */
+        .video-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .video-buttons .btn-campus-tour {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #4a00e0, #8e2de2);
+            color: #fff;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .video-buttons .btn-campus-tour:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 0, 224, 0.25);
+        }
+
+        .video-buttons .btn-gallery {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .video-buttons .btn-gallery:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ===== UNIVERSITY HEADER ===== */
+        .uni-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+        }
+
+        .uni-header.gradient-uog {
+            background: linear-gradient(145deg, #00d10a 0%, #4caf50 30%, #e60000 100%);
+        }
+        .uni-header.gradient-ibsu {
+            background: linear-gradient(145deg, #ffd700 0%, #f5a623 30%, #1a1a1a 100%);
+        }
+        .uni-header.gradient-dwu {
+            background: linear-gradient(145deg, #fdd835 0%, #8bc34a 40%, #2e7d32 100%);
+        }
+        .uni-header.gradient-upng {
+            background: linear-gradient(145deg, #1565c0 0%, #42a5f5 40%, #e3f2fd 100%);
+        }
+        .uni-header.gradient-wpu {
+            background: linear-gradient(145deg, #0d47a1 0%, #1976d2 40%, #8a7811 100%);
+        }
+        .uni-header.gradient-pau {
+            background: linear-gradient(145deg, #e65100 0%, #f57c00 40%, #1a1a1a 100%);
+        }
+        .uni-header.gradient-pnguot {
+            background: linear-gradient(145deg, #fdd835 0%, #c62828 50%, #4a0000 100%);
+        }
+        .uni-header.gradient-unre {
+            background: linear-gradient(145deg, #ffffff 0%, #23f53f 30%, #097705 100%);
+        }
+
+        .uni-header .uni-logo-large {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 6px;
+            flex-shrink: 0;
+            backdrop-filter: blur(4px);
+        }
+
+        .uni-header .uni-logo-large img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .uni-header .uni-logo-large .placeholder-icon {
+            font-size: 26px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .uni-header .uni-title h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .uni-header .uni-title .uni-short {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .uni-header .uni-title .uni-domain {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 3px;
+        }
+
+        .uni-header .uni-title .uni-domain a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .uni-header .uni-title .uni-domain a:hover {
+            color: #fff;
+        }
+
+        .uni-header .uni-title .location-text {
+            margin-top: 4px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== QUICK STATS ===== */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+            width: 100%;
+        }
+
+        .quick-stats .stat-box {
+            background: linear-gradient(145deg, #6c757d 0%, #343a40 50%, #1a1a1a 100%);
+            border-radius: 10px;
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .quick-stats .stat-box .number {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fcd116;
+        }
+
+        .quick-stats .stat-box .label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 2px;
+        }
+
+        /* ===== COURSES ===== */
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: #fcd116;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+
+        .course-card {
+            background: linear-gradient(145deg, #e0f7fa 0%, #a5d6a7 50%, #81c784 100%);
+            color: #1a1a1a;
+            border-radius: 10px;
+            padding: 10px 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .course-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card .course-icon {
+            color: #00695c;
+            font-size: 14px;
+            margin-right: 6px;
+        }
+
+        .course-card h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+
+        .course-card p {
+            font-size: 10px;
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== INFO STACKED ===== */
+        .info-stacked {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+
+        .info-stacked .info-card {
+            width: 100%;
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .info-stacked .info-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .info-card.entry-requirements {
+            background: linear-gradient(145deg, #ffffff 0%, #e3f2fd 50%, #bbdefb 100%);
+            border: 1px solid rgba(33, 150, 243, 0.15);
+            box-shadow: 0 2px 12px rgba(33, 150, 243, 0.08);
+            position: relative;
+            overflow: hidden;
+            min-height: 150px;
+        }
+
+        .info-card.entry-requirements:hover {
+            box-shadow: 0 4px 20px rgba(33, 150, 243, 0.15);
+        }
+
+        .info-card.entry-requirements .entry-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .info-card.entry-requirements .stickman-wrapper {
+            position: absolute;
+            top: 10%;
+            left: -20%;
+            width: 80px;
+            height: 100px;
+            animation: walkAcross 60s linear 1s forwards, fadeOutAfter 62s ease-in 1s forwards;
+            opacity: 0;
+        }
+
+        @keyframes walkAcross {
+            0% { left: -20%; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { left: 100%; opacity: 1; }
+        }
+
+        @keyframes fadeOutAfter {
+            0%, 90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .info-card.entry-requirements .stickman-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .info-card.entry-requirements > *:not(.entry-animation) {
+            position: relative;
+            z-index: 2;
+        }
+
+        .info-card.entry-requirements h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1565c0;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card.entry-requirements h3 i {
+            color: #1565c0;
+        }
+
+        .info-card.entry-requirements ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-card.entry-requirements li {
+            padding: 3px 0;
+            padding-left: 14px;
+            position: relative;
+            color: #1a1a1a;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .info-card.entry-requirements li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #1565c0;
+        }
+
+        .info-card.tuition-fees {
+            background: linear-gradient(145deg, #ffffff 0%, #e8eaf6 50%, #c5cae9 100%);
+            border: 1px solid rgba(63, 81, 181, 0.15);
+            box-shadow: 0 2px 12px rgba(63, 81, 181, 0.08);
+        }
+
+        .info-card.tuition-fees:hover {
+            box-shadow: 0 4px 20px rgba(63, 81, 181, 0.15);
+        }
+
+        .info-card.tuition-fees h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: #283593;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card.tuition-fees h3 i {
+            color: #283593;
+        }
+
+        .info-card.tuition-fees ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-card.tuition-fees li {
+            padding: 3px 0;
+            padding-left: 14px;
+            position: relative;
+            color: #1a1a1a;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .info-card.tuition-fees li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #283593;
+        }
+
+        .info-card.tuition-fees .highlight {
+            color: #283593;
+            font-weight: 600;
+        }
+
+        /* ===== FACILITIES GRID ===== */
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+            display: none;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .facilities-grid.active {
+            display: grid;
+        }
+
+        .facility-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .facility-item:hover {
+            transform: scale(1.02);
+        }
+
+        .facility-item img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+        }
+
+        .facility-item .facility-info {
+            padding: 8px 10px;
+        }
+
+        .facility-item .facility-info h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .facility-item .facility-info p {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 2px;
+        }
+
+        .no-facilities {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 16px 0 8px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            margin-top: 14px;
+        }
+
+        .footer .footer-sub {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .detail-layout {
+                flex-direction: column;
+            }
+            .right-video {
+                position: relative;
+                top: 0;
+                width: 100%;
+                min-width: 0;
+            }
+            .video-wrapper {
+                height: 280px;
+            }
+            .video-buttons {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .video-buttons .btn-campus-tour,
+            .video-buttons .btn-gallery {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+                padding: 16px 0;
+            }
+            .sidebar .nav-btn,
+            .sidebar .login-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 15px;
+            }
+            .main-content {
+                padding: 16px 16px 16px 24px;
+            }
+            .uni-header .uni-title h1 {
+                font-size: 18px;
+            }
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            .video-buttons {
+                flex-direction: column;
+            }
+            .video-buttons .btn-campus-tour,
+            .video-buttons .btn-gallery {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                min-height: auto;
+                flex-direction: row;
+                padding: 10px 14px;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                justify-content: center;
+                gap: 6px;
+                position: relative;
+            }
+            .sidebar .brand-icon {
+                margin-bottom: 0;
+                margin-right: 10px;
+            }
+            .sidebar .login-btn {
+                margin-top: 0;
+            }
+            .main-content {
+                padding: 12px 12px 12px 16px;
+            }
+            .uni-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 12px 16px;
+            }
+            .uni-header .uni-title h1 {
+                font-size: 16px;
+            }
+            .quick-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+            .quick-stats .stat-box .number {
+                font-size: 18px;
+            }
+            .courses-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .course-card {
+                padding: 8px 10px;
+            }
+            .course-card h4 {
+                font-size: 11px;
+            }
+            .facilities-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .info-card.entry-requirements {
+                min-height: 130px;
+            }
+            .video-wrapper {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+
+        <a href="index.html" class="nav-btn" title="Home"><i class="fas fa-home"></i></a>
+        <a href="javascript:history.back()" class="nav-btn" title="Back"><i class="fas fa-arrow-left"></i></a>
+        <a href="gallery.html" class="nav-btn" title="Gallery"><i class="fas fa-images"></i></a>
+
+        <a href="login.html" class="login-btn" title="Admin Login"><i class="fas fa-sign-in-alt"></i></a>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-content">
+
+        <!-- ===== BACK LINK ===== -->
+        <a href="universities.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Universities</a>
+
+        <!-- ===== UNIVERSITY HEADER ===== -->
+        <div class="uni-header" id="uniHeader">
+            <!-- Generated by JavaScript -->
+        </div>
+
+        <!-- ===== QUICK STATS ===== -->
+        <div class="quick-stats" id="quickStats">
+            <!-- Generated by JavaScript -->
+        </div>
+
+        <!-- ===== DETAIL LAYOUT: LEFT CONTENT + RIGHT VIDEO ===== -->
+        <div class="detail-layout">
+
+            <!-- ===== LEFT CONTENT ===== -->
+            <div class="left-content">
+
+                <!-- ===== COURSES OFFERED ===== -->
+                <h2 class="section-title"><i class="fas fa-book-open"></i> Courses Offered</h2>
+                <div class="courses-grid" id="coursesGrid">
+                    <!-- Generated by JavaScript -->
+                </div>
+
+                <!-- ===== INFO STACKED ===== -->
+                <div class="info-stacked" id="infoStacked">
+                    <!-- Generated by JavaScript -->
+                </div>
+
+                <!-- ===== FACILITIES GRID ===== -->
+                <div id="facilitiesContainer">
+                    <div class="facilities-grid" id="facilitiesGrid">
+                        <!-- Generated by JavaScript -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== RIGHT VIDEO ===== -->
+            <div class="right-video">
+                <div class="video-section" id="videoSection">
+                    <h3><i class="fas fa-video"></i> Campus Tour Video</h3>
+                    <div id="videoContainer">
+                        <!-- Generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- ===== VIDEO BUTTONS ===== -->
+                <div class="video-buttons">
+                    <button class="btn-campus-tour" id="campusTourBtn">
+                        <i class="fas fa-camera"></i> View Campus Facilities
+                    </button>
+                    <a href="gallery.html" class="btn-gallery" id="galleryLinkBtn">
+                        <i class="fas fa-images"></i> View Gallery
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <i class="fas fa-copyright"></i> 2025 PNG Uni Hub — Powered by DHERST
+            <span class="footer-sub"><i class="fas fa-lock-open"></i> Open Access for All</span>
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================
+        // DATA: 8 Universities
+        // ============================================
+        const universities = [
+            { id: 'unigoroka', shortName: 'UOG', fullName: 'University of Goroka', domain: 'https://www.unigoroka.ac.pg/' },
+            { id: 'ibsu', shortName: 'IBSU', fullName: 'IBS University', domain: 'https://ibsu.ac.pg/' },
+            { id: 'dwu', shortName: 'DWU', fullName: 'Divine Word University', domain: 'https://dwu.ac.pg/' },
+            { id: 'upng', shortName: 'UPNG', fullName: 'University of PNG', domain: 'https://www.upng.ac.pg/' },
+            { id: 'wpu', shortName: 'WPU', fullName: 'Western Pacific University', domain: 'https://wpu.ac.pg/' },
+            { id: 'pau', shortName: 'PAU', fullName: 'Pacific Adventist University', domain: 'https://www.pau.ac.pg/' },
+            { id: 'pnguot', shortName: 'PNGUoT', fullName: 'PNG University of Technology', domain: 'https://www.pnguot.ac.pg/' },
+            { id: 'unre', shortName: 'UNRE', fullName: 'University of Natural Resources & Environment', domain: 'https://unre.ac.pg/' }
+        ];
+
+        // Gradient mapping for each university
+        const gradientMap = {
+            'unigoroka': 'gradient-uog',
+            'ibsu': 'gradient-ibsu',
+            'dwu': 'gradient-dwu',
+            'upng': 'gradient-upng',
+            'wpu': 'gradient-wpu',
+            'pau': 'gradient-pau',
+            'pnguot': 'gradient-pnguot',
+            'unre': 'gradient-unre'
+        };
+
+        // Course data
+        const coursesData = {
+            unigoroka: ['Bachelor of Education', 'Bachelor of Arts', 'Bachelor of Science', 'Diploma in Education', 'Postgraduate Diploma in Education', 'Master of Education', 'Bachelor of Humanities', 'Bachelor of Social Science'],
+            ibsu: ['Bachelor of Information Technology', 'Bachelor of Business Administration', 'Bachelor of Accounting', 'Diploma in IT', 'Diploma in Business', 'Bachelor of Human Resource Management', 'Bachelor of Marketing'],
+            dwu: ['Bachelor of Medicine', 'Bachelor of Nursing', 'Bachelor of Health Sciences', 'Bachelor of Pharmacy', 'Diploma in Nursing', 'Bachelor of Medical Laboratory Science', 'Bachelor of Public Health'],
+            upng: ['Bachelor of Law', 'Bachelor of Economics', 'Bachelor of Science', 'Bachelor of Arts', 'Bachelor of Commerce', 'Bachelor of Engineering', 'Bachelor of Medicine', 'Bachelor of Architecture'],
+            wpu: ['Bachelor of Tourism', 'Bachelor of Hospitality', 'Bachelor of Business Management', 'Diploma in Tourism', 'Diploma in Hospitality', 'Bachelor of Events Management'],
+            pau: ['Bachelor of Theology', 'Bachelor of Business', 'Bachelor of Education', 'Bachelor of Arts', 'Bachelor of Health Science', 'Bachelor of Psychology', 'Bachelor of Social Work'],
+            pnguot: ['Bachelor of Engineering', 'Bachelor of Architecture', 'Bachelor of Surveying', 'Bachelor of Computer Science', 'Bachelor of Information Systems', 'Diploma in Engineering', 'Master of Engineering'],
+            unre: ['Bachelor of Agriculture', 'Bachelor of Forestry', 'Bachelor of Fisheries', 'Bachelor of Environmental Science', 'Diploma in Natural Resources', 'Bachelor of Business in Agriculture', 'Bachelor of Climate Change']
+        };
+
+        // ============================================
+        // GET UNIVERSITY FROM URL
+        // ============================================
+        function getUniversityFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            return universities.find(u => u.id === id);
+        }
+
+        // ============================================
+        // VIDEO LOGIC (with sound enabled)
+        // ============================================
+        let videoHoverTimer = null;
+
+        function setupVideoControls(videoElement) {
+            videoElement.muted = false;
+            videoElement.volume = 1.0;
+
+            videoElement.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (this.paused) {
+                    this.muted = false;
+                    this.play();
+                } else {
+                    this.pause();
+                }
+            });
+
+            videoElement.addEventListener('mouseenter', function() {
+                if (this.paused) {
+                    videoHoverTimer = setTimeout(() => {
+                        this.play();
+                    }, 2000);
+                }
+            });
+
+            videoElement.addEventListener('mouseleave', function() {
+                if (videoHoverTimer) {
+                    clearTimeout(videoHoverTimer);
+                    videoHoverTimer = null;
+                }
+                if (!this.paused && !this.hasAttribute('data-clicked')) {
+                    this.pause();
+                }
+            });
+
+            videoElement.addEventListener('play', function() {
+                if (!this.muted) {
+                    this.setAttribute('data-clicked', 'true');
+                }
+            });
+
+            videoElement.addEventListener('ended', function() {
+                this.removeAttribute('data-clicked');
+            });
+        }
+
+        // ============================================
+        // RENDER UNIVERSITY DETAILS
+        // ============================================
+        function renderUniversity() {
+            const uni = getUniversityFromURL();
+
+            if (!uni) {
+                document.getElementById('uniHeader').innerHTML = `
+                    <div style="text-align:center; padding:40px; color:rgba(255,255,255,0.3);">
+                        <i class="fas fa-exclamation-triangle" style="font-size:48px;display:block;margin-bottom:10px;"></i>
+                        <h2>University not found</h2>
+                        <p>Please go back to the <a href="universities.html" style="color:#fcd116;">Universities page</a>.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // ===== HEADER (with dynamic gradient) =====
+            const header = document.getElementById('uniHeader');
+            const gradientClass = gradientMap[uni.id] || 'gradient-unre';
+            header.className = `uni-header ${gradientClass}`;
+
+            // Load logo from uploads folder
+            const logoPath = `/uploads/logos/${uni.id}.png`;
+            fetch(logoPath)
+                .then(response => {
+                    if (response.ok) {
+                        header.innerHTML = `
+                            <div class="uni-logo-large"><img src="${logoPath}" alt="${uni.shortName} logo" /></div>
+                            <div class="uni-title">
+                                <h1>${uni.fullName}</h1>
+                                <div class="uni-short">${uni.shortName}</div>
+                                <div class="uni-domain">
+                                    <i class="fas fa-link"></i>
+                                    <a href="${uni.domain}" target="_blank">${uni.domain.replace('https://', '')}</a>
+                                </div>
+                                <div class="location-text"><i class="fas fa-map-marker-alt"></i> Papua New Guinea</div>
+                            </div>
+                        `;
+                    } else {
+                        header.innerHTML = `
+                            <div class="uni-logo-large"><div class="placeholder-icon"><i class="fas fa-university"></i></div></div>
+                            <div class="uni-title">
+                                <h1>${uni.fullName}</h1>
+                                <div class="uni-short">${uni.shortName}</div>
+                                <div class="uni-domain">
+                                    <i class="fas fa-link"></i>
+                                    <a href="${uni.domain}" target="_blank">${uni.domain.replace('https://', '')}</a>
+                                </div>
+                                <div class="location-text"><i class="fas fa-map-marker-alt"></i> Papua New Guinea</div>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(() => {
+                    header.innerHTML = `
+                        <div class="uni-logo-large"><div class="placeholder-icon"><i class="fas fa-university"></i></div></div>
+                        <div class="uni-title">
+                            <h1>${uni.fullName}</h1>
+                            <div class="uni-short">${uni.shortName}</div>
+                            <div class="uni-domain">
+                                <i class="fas fa-link"></i>
+                                <a href="${uni.domain}" target="_blank">${uni.domain.replace('https://', '')}</a>
+                            </div>
+                            <div class="location-text"><i class="fas fa-map-marker-alt"></i> Papua New Guinea</div>
+                        </div>
+                    `;
+                });
+
+            // ===== QUICK STATS =====
+            const stats = document.getElementById('quickStats');
+            stats.innerHTML = `
+                <div class="stat-box"><div class="number">50+</div><div class="label">Courses</div></div>
+                <div class="stat-box"><div class="number">4,000+</div><div class="label">Students</div></div>
+                <div class="stat-box"><div class="number">200+</div><div class="label">Staff</div></div>
+                <div class="stat-box"><div class="number">Est. 1965</div><div class="label">Established</div></div>
+            `;
+
+            // ===== COURSES =====
+            const courses = coursesData[uni.id] || ['Bachelor of Arts', 'Bachelor of Science', 'Diploma Programs'];
+            const coursesGrid = document.getElementById('coursesGrid');
+            coursesGrid.innerHTML = '';
+            const icons = ['fa-graduation-cap', 'fa-book', 'fa-flask', 'fa-briefcase', 'fa-chart-line', 'fa-cogs', 'fa-globe', 'fa-leaf'];
+            courses.forEach((course, index) => {
+                const card = document.createElement('div');
+                card.className = 'course-card';
+                card.innerHTML = `
+                    <h4><i class="fas ${icons[index % icons.length]} course-icon"></i> ${course}</h4>
+                    <p>Full-time • On-campus</p>
+                `;
+                coursesGrid.appendChild(card);
+            });
+
+            // ===== INFO STACKED =====
+            const infoStacked = document.getElementById('infoStacked');
+            infoStacked.innerHTML = `
+                <div class="info-card entry-requirements">
+                    <div class="entry-animation">
+                        <div class="stickman-wrapper">
+                            <svg class="stickman-svg" viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="60" cy="20" r="14" fill="black" />
+                                <ellipse cx="52" cy="16" rx="4" ry="5" fill="white" />
+                                <ellipse cx="68" cy="16" rx="4" ry="5" fill="white" />
+                                <circle cx="53" cy="17" r="2" fill="black" />
+                                <circle cx="69" cy="17" r="2" fill="black" />
+                                <path d="M48 26 Q60 34 72 26" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+                                <rect x="46" y="4" width="28" height="6" fill="black" />
+                                <polygon points="46,4 60,0 74,4" fill="black" />
+                                <line x1="68" y1="4" x2="72" y2="10" stroke="black" stroke-width="1.5" />
+                                <line x1="60" y1="34" x2="60" y2="70" stroke="black" stroke-width="3" />
+                                <line x1="60" y1="42" x2="40" y2="54" stroke="black" stroke-width="3" />
+                                <line x1="60" y1="42" x2="80" y2="54" stroke="black" stroke-width="3" />
+                                <rect x="76" y="46" width="14" height="18" fill="white" stroke="black" stroke-width="1.5" rx="1" />
+                                <line x1="78" y1="50" x2="88" y2="50" stroke="black" stroke-width="1" />
+                                <line x1="78" y1="54" x2="88" y2="54" stroke="black" stroke-width="1" />
+                                <line x1="78" y1="58" x2="88" y2="58" stroke="black" stroke-width="1" />
+                                <line x1="60" y1="70" x2="46" y2="90" stroke="black" stroke-width="3" />
+                                <line x1="60" y1="70" x2="74" y2="90" stroke="black" stroke-width="3" />
+                                <line x1="40" y1="92" x2="52" y2="92" stroke="black" stroke-width="3" />
+                                <line x1="68" y1="92" x2="80" y2="92" stroke="black" stroke-width="3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3><i class="fas fa-door-open"></i> Entry Requirements</h3>
+                    <ul>
+                        <li>Grade 12 Certificate with GPA of 2.5+</li>
+                        <li>English proficiency (Grade B or higher)</li>
+                        <li>Mathematics or Science prerequisites</li>
+                        <li>Minimum 2.0 GPA for Diploma programs</li>
+                        <li>Interview may be required for some programs</li>
+                    </ul>
+                </div>
+                <div class="info-card tuition-fees">
+                    <h3><i class="fas fa-money-bill-wave"></i> Tuition Fees (PGK)</h3>
+                    <ul>
+                        <li><strong>Bachelor Programs:</strong> K8,000 – K12,000 / year</li>
+                        <li><strong>Diploma Programs:</strong> K5,000 – K8,000 / year</li>
+                        <li><strong>Postgraduate:</strong> K12,000 – K18,000 / year</li>
+                        <li><strong>International Students:</strong> +K4,000 / year</li>
+                        <li><span class="highlight">Scholarships available</span></li>
+                    </ul>
+                </div>
+            `;
+
+            // =====================================================
+            // ===== VIDEO (Load from uploads/videos/) =====
+            // =====================================================
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPath = `/uploads/videos/${uni.id}.mp4`;
+
+            fetch(videoPath)
+                .then(response => {
+                    if (response.ok) {
+                        videoContainer.innerHTML = `
+                            <div class="video-wrapper" id="videoWrapper">
+                                <video id="uniVideo" playsinline preload="metadata" controls>
+                                    <source src="${videoPath}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        `;
+
+                        const video = document.getElementById('uniVideo');
+                        setupVideoControls(video);
+                    } else {
+                        videoContainer.innerHTML = `
+                            <div class="no-video">
+                                <i class="fas fa-video-slash"></i>
+                                <p>No video uploaded for this university yet.</p>
+                                <p style="font-size:11px; color:rgba(255,255,255,0.1);">Admin will upload a campus tour video soon.</p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(() => {
+                    videoContainer.innerHTML = `
+                        <div class="no-video">
+                            <i class="fas fa-video-slash"></i>
+                            <p>No video uploaded for this university yet.</p>
+                            <p style="font-size:11px; color:rgba(255,255,255,0.1);">Admin will upload a campus tour video soon.</p>
+                        </div>
+                    `;
+                });
+
+            // ==========================================================
+            // ===== BACKGROUND MUSIC (Load from uploads/audio/) =====
+            // ==========================================================
+            const audioPath = `/uploads/audio/background_music.mp3`;
+            fetch(audioPath)
+                .then(response => {
+                    if (response.ok) {
+                        let audio = document.getElementById('bgMusic');
+                        if (!audio) {
+                            audio = document.createElement('audio');
+                            audio.id = 'bgMusic';
+                            audio.loop = true;
+                            audio.volume = 0.2;
+                            audio.src = audioPath;
+                            document.body.appendChild(audio);
+                        }
+                    }
+                })
+                .catch(() => {});
+
+            // =====================================================
+            // ===== FACILITIES / CAMPUS TOUR =====
+            // =====================================================
+            const facilitiesGrid = document.getElementById('facilitiesGrid');
+            
+            fetch(`/list/gallery/${uni.id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.files && data.files.length > 0) {
+                        facilitiesGrid.innerHTML = '';
+                        const facilityNames = ['Main Campus', 'Library', 'Student Center', 'Sports Complex', 'Lecture Halls', 'Accommodation'];
+                        data.files.forEach((file, index) => {
+                            const item = document.createElement('div');
+                            item.className = 'facility-item';
+                            item.innerHTML = `
+                                <img src="${file.path}" alt="Facility image" loading="lazy" />
+                                <div class="facility-info">
+                                    <h4>${facilityNames[index % facilityNames.length]}</h4>
+                                    <p><i class="fas fa-map-marker-alt"></i> Main Campus, ${uni.shortName}</p>
+                                </div>
+                            `;
+                            facilitiesGrid.appendChild(item);
+                        });
+                    } else {
+                        useSampleImages(uni);
+                    }
+                })
+                .catch(() => {
+                    useSampleImages(uni);
+                });
+
+            function useSampleImages(uni) {
+                const sampleImages = [
+                    'https://picsum.photos/seed/uni1/400/300',
+                    'https://picsum.photos/seed/uni2/400/300',
+                    'https://picsum.photos/seed/uni3/400/300',
+                    'https://picsum.photos/seed/uni4/400/300'
+                ];
+                facilitiesGrid.innerHTML = '';
+                const facilityNames = ['Main Campus', 'Library', 'Student Center', 'Sports Complex'];
+                sampleImages.forEach((img, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'facility-item';
+                    item.innerHTML = `
+                        <img src="${img}" alt="Facility image" loading="lazy" />
+                        <div class="facility-info">
+                            <h4>${facilityNames[index % facilityNames.length]}</h4>
+                            <p><i class="fas fa-map-marker-alt"></i> Main Campus, ${uni.shortName}</p>
+                        </div>
+                    `;
+                    facilitiesGrid.appendChild(item);
+                });
+            }
+
+            // =====================================================
+            // ===== CAMPUS TOUR BUTTON =====
+            // =====================================================
+            document.getElementById('campusTourBtn').addEventListener('click', function() {
+                const grid = document.getElementById('facilitiesGrid');
+                grid.classList.toggle('active');
+                this.innerHTML = grid.classList.contains('active') ?
+                    '<i class="fas fa-times"></i> Close Campus Facilities' :
+                    '<i class="fas fa-camera"></i> View Campus Facilities';
+            });
+
+            // =====================================================
+            // ===== GALLERY LINK (update with university ID) =====
+            // =====================================================
+            const galleryLink = document.getElementById('galleryLinkBtn');
+            galleryLink.href = `gallery.html?uni=${uni.id}`;
+        }
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', renderUniversity);
+    </script>
+
+</body>
+</html>
